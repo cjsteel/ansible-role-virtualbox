@@ -1,0 +1,14 @@
+---
+# roles/tasks/main.yml file for virtualbox
+
+- name: Running os_ubuntu.yml
+  include: os_ubuntu.yml
+  when: ansible_distribution == "Ubuntu"
+
+- name: Running os_debian.yml
+  include: os_debian.yml
+  when: ansible_distribution == "Debian"
+
+- name: running os_darwin.yml
+  include: os_darwin.yml
+  when: ansible_os_family == "Darwin"

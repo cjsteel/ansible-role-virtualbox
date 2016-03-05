@@ -1,0 +1,7 @@
+---
+# role/tasks/os_darwin.yml for the virtualbox role
+
+#- name: Install brew packages
+#  homebrew: name={{item}}
+#  with_items: homebrew_installed_packages
+#  when: ansible_os_family == "Darwin"
