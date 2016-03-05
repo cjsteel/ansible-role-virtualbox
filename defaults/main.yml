@@ -15,7 +15,7 @@ ubuntu_10_04_virtualbox_version: "4.3"
 #
 # * Set install to true to install Virtual box
 
-remove_virtualbox: true
-purge_virtualbox: true
-install_virtualbox: false
+remove_virtualbox: false
+purge_virtualbox: false
+install_virtualbox: true
 
