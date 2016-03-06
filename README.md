@@ -1,7 +1,7 @@
 ansible.role.virtualbox
 =======================
 
-[![Build Status](https://travis-ci.org/cjsteel/ansible-role-virtualbox.svg?branch=master)](https://travis-ci.org//ansible-role-virtualbox)
+[![Build Status](https://travis-ci.org/cjsteel/ansible-role-virtualbox.svg?branch=master)](https://travis-ci.org/ansible-role-virtualbox)
 
 
 An ansible role for installing, removing and purging virtualbox

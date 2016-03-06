@@ -29,7 +29,7 @@ Ansible config points to our inventory file.
         - { role: "virtualbox" }
 
 
-## Vagrantfile_minimal
+## Vagrantfile
 
 a very minimal Vagrantfile, it should just work.
 
