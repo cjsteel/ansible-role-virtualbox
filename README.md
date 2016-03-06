@@ -24,11 +24,31 @@ A list of other roles hosted on Galaxy should go here, plus any details in regar
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+#### Minimalist
+You probably want this in almost all cases. The relies on defaults/main.yml value for the var **ensure_virtualbox**.
 
-    - hosts: servers
+    - hosts: all
+      become: true
       roles:
-         - { role: username.rolename, x: 42 }
+        - virtualbox
+
+#### Overide var in default/main.yml for all hosts in inventory
+
+    - hosts: all
+      become: true
+      gather_facts: false
+      vars:
+        - ensure_virtualbox: uninstalled
+      roles:
+        - virtualbox
+
+#### Overide default/main.yml by passing value for ensure_virtualbox via the role
+
+    - hosts: all
+      become: true
+      gather_facts: false
+      roles:
+        - { role: "virtualbox", ensure_virtualbox: "installed" }
 
 Example Command
 ---------------

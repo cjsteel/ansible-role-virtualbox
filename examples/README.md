@@ -20,7 +20,29 @@ Ansible config points to our inventory file.
 
 ## site.yml
 
-### site.yml content example
+### site.yml content examples
+
+    ---
+    - hosts: all
+      become: true
+      roles:
+        - virtualbox
+
+    - hosts: all
+      become: true
+      gather_facts: false
+      vars:
+        - ensure_virtualbox: installed
+      roles:
+        - virtualbox
+
+    - hosts: all
+      become: true
+      gather_facts: false
+      roles:
+        - { role: "virtualbox", ensure_virtualbox: "installed" }
+
+
 
     ---
     - hosts: all

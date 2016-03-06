@@ -9,13 +9,10 @@ ubuntu_10_04_virtualbox_version: "4.3"
 
 ## Virtualbox state
 #
-# * Set remove to true and purge to false to remove vrtualbox
-#
-# * Set remove to false and purge to true to purge virtualbox and all virtualbox configuration files
-#
-# * Set install to true to install Virtual box
+# ensure_virtualbox: installed
+# ensure_virtualbox: removed
+# ensure_virtualbox: reinstalled
+# ensure_virtualbox: purged
 
-remove_virtualbox: false
-purge_virtualbox: false
-install_virtualbox: true
+ensure_virtualbox: installed
 
