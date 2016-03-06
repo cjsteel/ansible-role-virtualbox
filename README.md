@@ -1,10 +1,10 @@
 ansible.role.virtualbox
 =======================
 
-[![Build Status](https://travis-ci.org/cjsteel/ansible-role-virtualbox.svg?branch=master)](https://travis-ci.org/ansible-role-virtualbox)
+[![Build Status](https://travis-ci.org/cjsteel/ansible-role-virtualbox.svg?branch=master)](https://travis-ci.org/cjsteel/ansible-role-virtualbox)
 
 
-An ansible role for installing, removing and purging virtualbox
+An ansible role for installing, reinstalling, removing and purging virtualbox
 
 Requirements
 ------------
@@ -35,11 +35,13 @@ Example Command
 
     ansible-playbook -i inventory/dev site.yml --ask-become-pass
 
-
 License
 -------
 
-BSD
+* [MIT](https://opensource.org/licenses/MIT)
+
+![OSI Logo](https://opensource.org/files/osi_logo_100X133_90ppi_0.png "OSI Logo")
+
 
 Author Information
 ------------------
