@@ -9,10 +9,8 @@ ubuntu_10_04_virtualbox_version: "4.3"
 
 ## Virtualbox state
 #
-# ensure_virtualbox: installed
+ensure_virtualbox: installed
 # ensure_virtualbox: removed
 # ensure_virtualbox: reinstalled
 # ensure_virtualbox: purged
-
-ensure_virtualbox: installed
 
