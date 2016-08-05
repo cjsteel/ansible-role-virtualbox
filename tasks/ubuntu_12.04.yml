@@ -1,15 +1,11 @@
 ---
-# roles/tasks/ubuntu-14.04.yml for virtualbox
+# roles/virtualbox/tasks/ubuntu_12.04.yml
 
-###  sudo apt-cache rdepends virtualbox-5.0
-
-## 
+## We update our cache here in case we are removing, reinstalling or purging
 
 - name: update apt cache
   apt: update_cache=yes cache_valid_time=43200
   tags: [ 'packages', 'virtualbox' ]
-
-
 
 ## Confirm that the value of ensure_virtualbox is valid
 
@@ -49,8 +45,10 @@
   tags: [ 'packages', 'virtualbox' ]
 
 - name: Configure the VirtualBox APT repositories
-  apt_repository: repo="deb http://download.virtualbox.org/virtualbox/debian {{ ansible_distribution_release }} contrib"
-                  state=present
+  apt_repository:
+    repo: "deb http://download.virtualbox.org/virtualbox/debian {{ ansible_distribution_release }} contrib"
+    mode: 0644
+    state: present
   when: ensure_virtualbox == "installed" or ensure_virtualbox == "reinstalled"
   tags: [ 'packages', 'virtualbox' ]
 

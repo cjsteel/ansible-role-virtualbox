@@ -4,27 +4,5 @@
 # private files
 .private
 .prv
+.retry
 .vault
-
-# ansible.cfg
-
-# OS files
-
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-Icon?
-ehthumbs.db
-Thumbs.db
-
-# Vagrant files
-
-.virtualbox/
-.vagrant/
-vagrant_ansible_inventory_*
-
-# Other files #
-
-!empty
