@@ -1,69 +1,88 @@
-ansible.role.virtualbox
-=======================
+# ansible role: virtualbox
 
-[![Build Status](https://travis-ci.org/cjsteel/ansible-role-virtualbox.svg?branch=master)](https://travis-ci.org/cjsteel/ansible-role-virtualbox)
+[![Build Status](https://travis-ci.org/hubisan/ansible-virtualbox.svg?branch=master)](https://travis-ci.org/hubisan/ansible-virtualbox)
 
+An Ansible role for installing VirtualBox on Ubuntu.
 
-An ansible role for installing, reinstalling, removing and purging virtualbox
+## Requirements
 
-Requirements
-------------
+This role requires Ansible 2.0 or higher.
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Tested on Ubuntu 12.04 and 14.04. Should work on all Ubuntu versions >= 12.04.
 
-Role Variables
---------------
+## Role Variables
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Default variables:
 
-Dependencies
-------------
+``` yaml
+---
+# defaults file for virtualbox
+virtualbox_version: "5.0"
+virtualbox_install_dkms: no
+```
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+## Dependencies
 
-Example Playbook
-----------------
+None.
 
-#### Minimalist
-You probably want this in almost all cases. The relies on defaults/main.yml value for the var **ensure_virtualbox**.
+## Example Playbook
 
-    - hosts: all
-      become: true
-      roles:
-        - virtualbox
+Use the option '--ask-become-pass' (or alias '-K') when running playbook using this role with ansible-playbook (like 'ansible-playbook -i ./hosts vbox.yml -K').
 
-#### Overide var in default/main.yml for all hosts in inventory
+Install VirtualBox:
+``` yaml
+- hosts: all
+  roles:
+    - { role: hubisan.virtualbox }
+```
 
-    - hosts: all
-      become: true
-      gather_facts: false
-      vars:
-        - ensure_virtualbox: uninstalled
-      roles:
-        - virtualbox
+Install specific version of VirtualBox and virtualbox-dkms:
+``` yaml
+- hosts: all
+  roles:
+    - { role: hubisan.virtualbox, virtualbox_version: "4.2", virtualbox_install_dkms: yes }
+```
 
-#### Overide default/main.yml by passing value for ensure_virtualbox via the role
+## Installation
 
-    - hosts: all
-      become: true
-      gather_facts: false
-      roles:
-        - { role: "virtualbox", ensure_virtualbox: "installed" }
+### Installation from Ansible Galaxy
 
-Example Command
----------------
+- On the command line:
+  ``` shell
+  ansible-galaxy install hubisan.virtualbox
+  ```
 
-    ansible-playbook -i inventory/dev site.yml --ask-become-pass
+- Inside a playbook from requirements file:  
+  Add the source to requirements.yml:
+  ``` yaml
+  - src: hubisan.virtualbox
+  ```
+  And add the command to your playbook:
+  ``` yaml
+  - name: install requirements from ansible galaxy
+    command: ansible-galaxy install -r requirements.yml --ignore-errors
+  ```
+  This playbook has to be run before using the role in another playbook.
 
-License
--------
+### Installation from Github directly
 
-* [MIT](https://opensource.org/licenses/MIT)
+To install from GitHub directly add the source to requirements.yml:
+``` yaml
+- name: hubisan.virtualbox
+  src: https://github.com/hubisan/ansible-virtualbox
+```
 
-![OSI Logo](https://opensource.org/files/osi_logo_100X133_90ppi_0.png "OSI Logo")
+And add the command to your playbook:
+``` yaml
+- name: install requirements from ansible galaxy
+  command: ansible-galaxy install -r requirements.yml --ignore-errors
+```
+This playbook has to be run before using the role in another playbook.
 
+## License
 
-Author Information
-------------------
+MIT
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+## Author Information
+
+Daniel Hubmann

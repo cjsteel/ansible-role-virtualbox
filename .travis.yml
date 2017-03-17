@@ -1,64 +1,54 @@
 ---
+sudo: required
+dist: trusty
 language: python
-python: "2.7"
-
+python:
+  - "2.7"
+services:
+  - docker
 env:
-  - ANSIBLE_VERSION=latest
-  - ANSIBLE_VERSION=2.0.0.2
-  - ANSIBLE_VERSION=2.0.0.1
-  - ANSIBLE_VERSION=2.0.0.0
-  - ANSIBLE_VERSION=1.9.4
-  - ANSIBLE_VERSION=1.9.3
-  - ANSIBLE_VERSION=1.9.2
-  - ANSIBLE_VERSION=1.9.1
-  - ANSIBLE_VERSION=1.9.0.1
-  - ANSIBLE_VERSION=1.8.4
-  - ANSIBLE_VERSION=1.8.3
-  - ANSIBLE_VERSION=1.8.2
-  - ANSIBLE_VERSION=1.8.1
-  - ANSIBLE_VERSION=1.8
-  - ANSIBLE_VERSION=1.7.2
-  - ANSIBLE_VERSION=1.7.1
-  - ANSIBLE_VERSION=1.7
-  - ANSIBLE_VERSION=1.6.9
-  - ANSIBLE_VERSION=1.6.8
-  - ANSIBLE_VERSION=1.6.7
-  - ANSIBLE_VERSION=1.6.6
-  - ANSIBLE_VERSION=1.6.5
-  - ANSIBLE_VERSION=1.6.4
-  - ANSIBLE_VERSION=1.6.3
-  - ANSIBLE_VERSION=1.6.2
-  - ANSIBLE_VERSION=1.6.10
-  - ANSIBLE_VERSION=1.6.1
-  - ANSIBLE_VERSION=1.6
-
-branches:
-  only:
-    - master
+  global:
+    - PATH="/usr/bin:$PATH"
 
 before_install:
+    # Ansible doesn't play well with virtualenv
+  - deactivate
   - sudo apt-get update -qq
+  - sudo apt-get install -y -o Dpkg::Options::="--force-confnew" docker-engine
 
 install:
-  # Install Ansible.
-  - if [ "$ANSIBLE_VERSION" = "latest" ]; then pip install ansible; else pip install ansible==$ANSIBLE_VERSION; fi
+  - sudo pip install docker-py
+    # software-properties-common for ubuntu 14.04
+    # python-software-properties for ubuntu 12.04
+  - sudo apt-get install -y sshpass software-properties-common python-software-properties
+  - sudo apt-add-repository -y ppa:ansible/ansible
+  - sudo apt-get update -qq
+  - sudo apt-get install -y ansible
+  - sudo rm /usr/bin/python && sudo ln -s /usr/bin/python2.7 /usr/bin/python
+  # install
+  - ansible-galaxy install -r tests/requirements.yml -p tests/roles/
 
 script:
+  - >
+    sudo ansible all -i "127.0.0.1," -m
+    lineinfile -a "regexp=^#host_key_checking dest=/etc/ansible/ansible.cfg line='host_key_checking = False'" -c local
+
   # Check the role/playbook's syntax.
-  - ansible-playbook -i tests/inventory tests/test.yml --syntax-check
+  - ansible-playbook -i tests/inventory tests/main.yml --syntax-check
 
   # Run the role/playbook with ansible-playbook.
-  - ansible-playbook -i tests/inventory tests/test.yml -vvvv
+  - >
+    ansible-playbook -i tests/inventory tests/main.yml
+    --connection=local --sudo  
 
   # Run the role/playbook again, checking to make sure it's idempotent.
   - >
-    ansible-playbook -i tests/inventory tests/test.yml
-    | grep -q 'changed=0.*failed=0'
+    ansible-playbook -i tests/inventory tests/main.yml
+    --connection=local --sudo
+    | grep -q 'changed=[0].*failed=0'
     && (echo 'Idempotence test: pass' && exit 0)
-    || (echo 'Idempotence test: fail' && exit 1)
+    || (echo 'Idempotence test: fail' && exit 1)  
 
-#notifications:
-#  email: false
-#  hipchat:
-#    rooms:
-#      secure:
+notifications:
+  # notify ansible galaxy of test results
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/

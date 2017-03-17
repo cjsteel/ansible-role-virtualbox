@@ -1,8 +1,0 @@
----
-# role/tasks/os_debian.yml for the virtualbox role
-
-- name: update apt cache for debian
-  apt: update_cache=yes cache_valid_time=43200
-  tags: [ 'packages' ]
-
-

@@ -1,0 +1,27 @@
+---
+- name: Bring up docker containers
+  hosts: localhost
+  gather_facts: false
+  vars:
+    inventory:
+      - name: ansible_test_virtualbox_1204
+        image: "chrismeyers/ubuntu12.04"
+      - name: ansible_test_virtualbox_1404
+        image: "ubuntu-upstart:14.04"      
+  roles:
+    - role: provision_docker
+      provision_docker_inventory: "{{ inventory }}"
+
+- name: Run virtualbox Tests
+  hosts: docker_containers
+  roles:
+    - role: ansible_virtualbox
+      virtualbox_version: "5.0"
+      virtualbox_install_dkms: yes
+  # tasks:
+  #   - name: print virtualbox version
+  #     command: virtualbox --help
+
+# a testframework
+# https://github.com/metacloud/molecule
+# local travis: https://github.com/travis-ci/travis-build#use-as-addon-for-cli      

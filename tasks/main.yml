@@ -1,14 +1,91 @@
 ---
-# roles/tasks/main.yml file for virtualbox
+# tasks file for virtualbox: main.yml
 
-- name: Running os_ubuntu.yml
-  include: os_ubuntu.yml
-  when: ansible_distribution == "Ubuntu"
+#- name: Ubuntu
+#  include: ubuntu.yml
+#  when: ansible_distribution == "Ubuntu" and {{ ansible_distribution_version.split(".")[0] }}|int >= 12
 
-- name: Running os_debian.yml
-  include: os_debian.yml
-  when: ansible_distribution == "Debian"
+#- name: not Ubuntu
+#  fail: msg="role ansible-virtualbox only supports ubuntu and ubuntu version >= 12"
+#  when: ansible_distribution != "Ubuntu"
+#
+#- name: needs 12.04 or more
+#  fail: msg="role ansible-virtualbox only supports ubuntu and ubuntu version >= 12"
+#  when: ansible_distribution == "Ubuntu" and {{ ansible_distribution_version.split(".")[0] }}|int < 12
 
-- name: running os_darwin.yml
-  include: os_darwin.yml
-  when: ansible_os_family == "Darwin"
+## We update our cache here in case we are removing, reinstalling or purging
+
+- name: update apt cache
+  apt: update_cache=yes cache_valid_time=43200
+  tags: [ 'packages', 'virtualbox' ]
+
+## Confirm that the value of ensure_virtualbox is valid
+
+- fail: msg="ensure_virtualbox == {{ ensure_virtualbox }}. It must be equal installed, removed, reinstalled or purged."
+  when: ensure_virtualbox != "installed" and ensure_virtualbox != "purged" and ensure_virtualbox != "reinstalled" and ensure_virtualbox != "removed"
+  tags: [ 'packages', 'virtualbox' ]
+
+## Removing Virtualbox
+
+- name: Remove VirtualBox
+  apt: pkg='{{ virtualbox_pkg_name }}' state=absent purge=no
+  when: ensure_virtualbox == "removed" or ensure_virtualbox == "reinstalled"
+  tags: [ 'packages', 'virtualbox' ]
+
+- name: Remove VirtualBox and purge the Virtualbox configuration files
+  apt: pkg='{{ virtualbox_pkg_name }}' state=absent purge=yes
+  when: ensure_virtualbox == "purged"
+  tags: [ 'packages', 'virtualbox' ]
+
+- name: "Remove virtualbox oracle apt key 2"
+  become: yes
+  apt_key: id="98AB5139" state=absent
+  when: ensure_virtualbox == "removed" or ensure_virtualbox == "purged" or ensure_virtualbox == "reinstalled"
+  tags: [ 'packages', 'virtualbox' ]
+
+- name: "Remove virtualbox oracle apt key 2"
+  become: yes
+  apt_key: id="2980AECF" state=absent
+  when: ensure_virtualbox == "removed" or ensure_virtualbox == "purged" or ensure_virtualbox == "reinstalled"
+  tags: [ 'packages', 'virtualbox' ]
+
+- name: Remove the VirtualBox APT repositories
+  apt_repository: repo="{{ virtualbox_repo }}" state=absent mode="0644"
+  when: ensure_virtualbox == "removed" or ensure_virtualbox == "purged" or ensure_virtualbox == "reinstalled"
+  tags: [ 'packages', 'virtualbox' ]
+
+## Installing Virtualbox
+
+- debug: var=ensure_virtualbox
+
+- name: "add virtualbox oracle apt key"
+  become: yes
+  apt_key: url="{{ virtualbox_key_url_1 }}" state=present
+  when: ensure_virtualbox == "installed" or ensure_virtualbox == "reinstalled"
+  tags: [ 'packages', 'virtualbox' ]
+
+- name: "add virtualbox oracle apt key"
+  become: yes
+  apt_key: url="{{ virtualbox_key_url_2 }}" state=present
+  when: ensure_virtualbox == "installed" or ensure_virtualbox == "reinstalled"
+  tags: [ 'packages', 'virtualbox' ]
+
+- name: add virtualbox repository
+  become: yes
+  apt_repository: repo="{{ virtualbox_repo }}" state=present mode="0644"
+  when: ensure_virtualbox == "installed" or ensure_virtualbox == "reinstalled"
+  tags: [ 'packages', 'virtualbox' ]
+
+- name: install virtualbox
+  become: yes
+  apt: name="{{ virtualbox_pkg_name }}" state=present update_cache=yes
+  when: ensure_virtualbox == "installed" or ensure_virtualbox == "reinstalled"
+  tags: [ 'packages', 'virtualbox' ]
+
+- name: install virtualbox dkms package
+  become: yes
+  apt: name="{{ virtualbox_dkms_pkg_name }}" state=present
+  when: virtualbox_install_dkms and ensure_virtualbox == "installed" or ensure_virtualbox == "reinstalled"
+  tags: virtualbox_dkms
+
+
