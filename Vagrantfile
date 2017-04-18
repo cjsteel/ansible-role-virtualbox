@@ -5,53 +5,21 @@ role = File.basename(File.expand_path(File.dirname(__FILE__)))
 
 boxes = [
   {
-    :name => "ubuntu-1004",
-    :box => "opscode-ubuntu-10.04",
-    :url => "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-10.04_chef-provisionerless.box",
-    :ip => '10.0.0.10',
-    :cpu => "50",
-    :ram => "256"
-  },
-  {
-    :name => "ubuntu-1204",
-    :box => "opscode-ubuntu-12.04",
-    :url => "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04_chef-provisionerless.box",
-    :ip => '10.0.0.11',
-    :cpu => "50",
-    :ram => "256"
-  },
-  {
-    :name => "ubuntu-1404",
-    :box => "opscode-ubuntu-14.04",
-    :url => "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-14.04_chef-provisionerless.box",
-    :ip => '10.0.0.12',
-    :cpu => "50",
-    :ram => "256"
-  },
-  {
-    :name => "debian-6010",
-    :box => "opscode-debian-6.0.10",
-    :url => "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-6.0.10_chef-provisionerless.box",
+    :name => "ubuntu-1604",
+    :box => "ubuntu/xenial64",
+#    :box => "bento/ubuntu-16.04",
     :ip => '10.0.0.13',
     :cpu => "50",
     :ram => "256"
   },
-  {
-    :name => "debian-79",
-    :box => "opscode-debian-7.9",
-    :url => "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-7.9_chef-provisionerless.box",
-    :ip => '10.0.0.14',
-    :cpu => "50",
-    :ram => "256"
-  },
-  {
-    :name => "debian-82",
-    :box => "opscode-debian-8.2",
-    :url => "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-8.2_chef-provisionerless.box",
-    :ip => '10.0.0.15',
-    :cpu => "50",
-    :ram => "256"
-  },
+#  {
+#    :name => "debian-82",
+#    :box => "opscode-debian-8.2",
+#    :url => "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-8.2_chef-provisionerless.box",
+#    :ip => '10.0.0.15',
+#    :cpu => "50",
+#    :ram => "256"
+#  },
 ]
 
 Vagrant.configure("2") do |config|
@@ -67,6 +35,9 @@ Vagrant.configure("2") do |config|
       end
 
       vms.vm.network :private_network, ip: box[:ip]
+
+      vms.vm.provision "shell",
+        inline: "sudo apt-get update && sudo apt-get install -y python"
 
       vms.vm.provision :ansible do |ansible|
         ansible.playbook = "tests/vagrant.yml"

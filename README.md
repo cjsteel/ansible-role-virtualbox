@@ -8,6 +8,27 @@ ansible.role.virtualbox
 
 An ansible role for installing, reinstalling, removing and purging virtualbox
 
+## Procedure
+
+```shell
+sudo apt remove virtualbox
+## ubuntu xenial
+# deb http://download.virtualbox.org/virtualbox/debian xenial contrib
+## debian 8 jesse
+#deb http://download.virtualbox.org/virtualbox/debian jessie contrib
+```
+
+### Additional notes:
+
+#### VirtualBox 5.1 was released on July 12, 2016
+
+- increased Linux Integration, [DKMS](https://www.linuxbabe.com/virtualbox/how-to-install-virtualbox-guest-additions-on-ubuntu-step-by-step) is no longer needed
+- improved multimedia support
+- a new bug reporting helper tool
+- a new NVMHCI storage controller for emulating NVMe (NVM Express) devices, aka, flash storage
+- better support for USB devices and multi-channel audio
+- significantly improved performance when running VMs with multi-CPU
+- improved systemd integration
 
 ## Requirements
 
