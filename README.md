@@ -1,5 +1,5 @@
 
-ansible.role.virtualbox
+ansible-role-virtualbox
 =======================
 
 ```shell
@@ -83,7 +83,7 @@ You probably want this in almost all cases. The relies on defaults/main.yml valu
 ## Example Command
 
 ```shell
-ansible-playbook -i inventory/dev site.yml --ask-become-pass limit=workstation_001
+ansible-playbook -i inventory/dev site.yml --ask-become-pass --limit workstation_001
 ```
 License
 -------
