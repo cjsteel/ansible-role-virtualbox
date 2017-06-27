@@ -85,6 +85,42 @@ You probably want this in almost all cases. The relies on defaults/main.yml valu
 ```shell
 ansible-playbook -i inventory/dev site.yml --ask-become-pass --limit workstation_001
 ```
+
+## Role Testing
+
+### Locally using vagrant
+
+```shell
+mkdir .vagrant/synced
+vagrant up
+vagrant ssh -- -X
+```
+
+```shell
+which virtualbox
+```
+
+```shell
+virtualbox
+```
+
+Check the version.
+
+Example:
+
+```shell
+VirtualBox Graphical User Interface
+Version 5.1.22 r115126 (Qt5.5.1)
+Copyright © 2017 Oracle Corporation and/or its affiliates. All rights reserved.
+```
+
+
+```shell
+exit
+vagrant destroy # if you are done testing
+```
+
+
 License
 -------
 
