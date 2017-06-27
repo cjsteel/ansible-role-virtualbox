@@ -96,6 +96,22 @@ vagrant up
 vagrant ssh -- -X
 ```
 
+### Check via terminal
+
+```shell
+vboxmanage --version
+```
+Output
+
+### Via script
+
+```shell
+#!/bin/bash
+echo $(vboxmanage --version)
+```
+
+### vi GUI
+
 ```shell
 which virtualbox
 ```
