@@ -66,7 +66,7 @@ You probably want this in almost all cases. The relies on defaults/main.yml valu
   become: true
   gather_facts: false
   vars:
-    - ensure_virtualbox: uninstalled
+    - virtualbox_state: 'absent'
   roles:
     - virtualbox
 ```
@@ -77,7 +77,7 @@ You probably want this in almost all cases. The relies on defaults/main.yml valu
       become: true
       gather_facts: false
       roles:
-        - { role: "virtualbox", ensure_virtualbox: "installed" }
+        - { role: "virtualbox", virtualbox_state: 'present' }
 
 
 ## Example Command
