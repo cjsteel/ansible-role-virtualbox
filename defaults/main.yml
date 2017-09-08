@@ -16,7 +16,7 @@ virtualbox_apt_key_url_2 : 'https://www.virtualbox.org/download/oracle_vbox.asc'
 virtualbox_apt_repo      : 'deb http://download.virtualbox.org/virtualbox/debian xenial contrib'
 # Debian 8 jesse
 #virtualbox_apt_repo      : 'deb http://download.virtualbox.org/virtualbox/debian jessie contrib'
-virtualbox_apt_pkg       : 'virtualbox-5.1'
+virtualbox_apt_pkg       : 'virtualbox'
 virtualbox_apt_dkms_pkg  : 'virtualbox-dkms'
 
 
