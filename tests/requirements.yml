@@ -1,4 +1,4 @@
 # http://docs.ansible.com/ansible/galaxy.html#advanced-control-over-role-requirements-files
 # http://stackoverflow.com/questions/25230376/how-to-automatically-install-ansible-galaxy-roles
-- src: chrismeyersfsu.provision_docker
-  name: provision_docker
+#- src: chrismeyersfsu.provision_docker
+#  name: provision_docker
