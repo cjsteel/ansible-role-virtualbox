@@ -9,7 +9,7 @@ virtualbox_state: 'present'
 #virtualbox_state: 'purged'
 
 virtualbox_version       : '5.1'
-virtualbox_install_dkms  : no		# default for 5.1 as no longer required
+virtualbox_install_dkms  : no               # default for 5.1 as no longer required
 
 virtualbox_apt_key_url_1 : 'https://www.virtualbox.org/download/oracle_vbox_2016.asc'
 virtualbox_apt_key_url_2 : 'https://www.virtualbox.org/download/oracle_vbox.asc'
